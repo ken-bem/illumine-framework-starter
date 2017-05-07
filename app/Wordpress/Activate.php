@@ -1,6 +1,5 @@
 <?php namespace IlluminePlugin1\Wordpress;
 
-use IllumineFramework\IlluminePlugin;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\DB;
@@ -16,6 +15,8 @@ class Activate{
      */
     public function init()
     {
+
+
         return new self();
     }
 
@@ -25,7 +26,7 @@ class Activate{
      */
     public function __construct()
     {
-        //$this->plugin = IlluminePlugin::getInstance(__NAMESPACE__);
+        //$this->plugin = illumine(__NAMESPACE__);
         $this->schema();
         //$this->data();
     }

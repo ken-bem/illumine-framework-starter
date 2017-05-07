@@ -19,7 +19,7 @@ return [
         'loading' => 'eager',
         //eager: (overwrite wp routes),
         //lazy: (intercept wp 404 during template redirect)
-        'cache' => true,
+        'cache' => false,
         'compiled' => __DIR__.'/cache/routes.cache'
     ],
 

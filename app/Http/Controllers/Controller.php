@@ -1,7 +1,7 @@
 <?php namespace IlluminePlugin1\Http\Controllers;
 
 use Illuminate\Http\RedirectResponse;
-use IllumineFramework\Controllers\BaseController;
+use Illumine\Framework\Controllers\BaseController;
 use IlluminePlugin1\Helper;
 
 

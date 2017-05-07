@@ -30,9 +30,9 @@ require_once __DIR__.'/vendor/autoload.php';
 | Similar to Laravel's bootstrap/app.php
 |--------------------------------------------------------------------------
 */
-use Illumine\Framework\Assembler;
 
-$framework = new Assembler(__FILE__);
+
+$framework = new \Illumine\Framework\Assembler(__FILE__);
 
 
 /*
