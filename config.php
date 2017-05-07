@@ -2,7 +2,11 @@
 
 return [
     'namespace' => 'IlluminePlugin1',
-    'mode' => 'development', // development: Show Framework Admin Panel
+
+    'mode' => 'development',
+    //Toggle Developer Tools Panel & Menu
+    //Show: development
+    //Hide: production
 
     'database' => [
         'enabled' => true,

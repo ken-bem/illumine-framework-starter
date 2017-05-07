@@ -1,5 +1,5 @@
 <?php namespace IlluminePlugin1;
-use IllumineFramework\IllumineHelper;
+use Illumine\Framework\Helper as IllumineHelper;
 
 class Helper extends IllumineHelper{
 

@@ -16,3 +16,5 @@
 composer.lock
 
 vendor/*
+
+cache/views/*.php
