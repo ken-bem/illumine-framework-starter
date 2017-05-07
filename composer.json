@@ -1,23 +1,26 @@
 {
-  "name": "wordpresspluginpro/wpp-plugin-skeleton",
-  "type": "project",
-  "author": "Dan Alvidrez <info@wordpresspluginpro.com>",
+  "name": "bayareawebpro/illumine-framework-starter",
+  "description": "The Illumine Plugin Framework Starter Package",
+  "license": "MIT",
+  "homepage": "https://www.bayareawebpro.com",
+  "support": {
+    "issues": "https://github.com/bayareawebpro/illumine-framework-starter/issues",
+    "source": "https://github.com/bayareawebpro/illumine-framework-starter/"
+  },
+  "authors": [
+    {
+      "name": "Dan Alvidrez",
+      "email": "dan@bayareawebpro.com"
+    }
+  ],
   "require": {
-    "bayareawebpro/illumine-framework":"dev-master"
+    "php": ">=5.6.4",
+    "bayareawebpro/illumine-framework": "dev-master"
   },
-  "config": {
-    "preferred-install": "dist"
-  },
-  "minimum-stability": "stable",
   "autoload": {
     "psr-4": {
       "IlluminePlugin1\\": "app"
     }
   },
-  "post-install-cmd": [
-    "composer dump-autoload -o"
-  ],
-  "post-update-cmd": [
-    "composer dump-autoload -o"
-  ]
+  "minimum-stability": "stable"
 }

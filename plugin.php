@@ -1,13 +1,13 @@
 <?php
 /**
- * @link              http://www.wordpresspluginpro.com
+ * @link              http://www.bayareawebpro.com
  * @since             1.0
- * @package           wpp-framework
+ * @package           bayareawebpro/illumine-framework-starter
  * @wordpress-plugin
  *
- * Plugin Name:       Illumine Plugin 1
- * Plugin URI:        http://www.wordpresspluginpro.com/
- * Description:       Basic Plugin Skeleton for New Projects.
+ * Plugin Name:       Illumine Framework Starter
+ * Plugin URI:        http://www.bayareawebpro.com/
+ * Description:       Plugin Skeleton for New Projects.
  * Version:           1.0
  * Author:            Some Dev
  * Author URI:        http://www.SomeDev.com/
@@ -30,8 +30,9 @@ require_once __DIR__.'/vendor/autoload.php';
 | Similar to Laravel's bootstrap/app.php
 |--------------------------------------------------------------------------
 */
+use Illumine\Framework\Assembler;
 
-$framework = new \Illumine\Framework\Assembler(__FILE__);
+$framework = new Assembler(__FILE__);
 
 
 /*
