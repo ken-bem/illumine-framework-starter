@@ -1,7 +1,8 @@
 <?php namespace IlluminePlugin1\Wordpress;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
-use function Illumine\Framework\illumine;
+use Illuminate\Support\Facades\DB;
+use Illumine\Framework\Assembler;
 class UnInstall{
 
     protected $this;
@@ -22,7 +23,7 @@ class UnInstall{
      */
     public function __construct()
     {
-        $this->plugin = illumine(__NAMESPACE__);
+        $this->plugin = Assembler::getInstance(__NAMESPACE__);
         $this->schema();
         $this->data();
     }
@@ -32,7 +33,8 @@ class UnInstall{
      */
     private function schema()
     {
-        Schema::dropIfExists('illumine_test1');
+        Schema::dropIfExists('illumine_test1_sessions');
+        Schema::dropIfExists('illumine_test1_cache');
     }
 
     /**

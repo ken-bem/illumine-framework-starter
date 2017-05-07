@@ -41,6 +41,7 @@ $framework = new \Illumine\Framework\Assembler(__FILE__);
 |--------------------------------------------------------------------------
 */
 
+
 //$framework->plugin->bind('fooBar', \stdClass::class, $shared = true|false);
 
 

@@ -3,20 +3,18 @@
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\DB;
-
+use Illumine\Framework\Assembler;
 class Activate{
 
     protected $this;
     private $plugin;
 
     /**
-     * Class Initialization called by Hook (Requires Static Method)
+     * Class Initialization called by Hook
      * @return Activate
      */
     public function init()
     {
-
-
         return new self();
     }
 
@@ -26,7 +24,7 @@ class Activate{
      */
     public function __construct()
     {
-        //$this->plugin = illumine(__NAMESPACE__);
+        $this->plugin = Assembler::getInstance(__NAMESPACE__);
         $this->schema();
         //$this->data();
     }
@@ -37,75 +35,38 @@ class Activate{
     public function schema()
     {
 
-        $version = DB::connection()->getPdo()->query('select version()')->fetchColumn();
-
-        if(!version_compare(mb_substr($version, 0, 6), '5.7.7') >= 0){
+        //Check Version of Database
+        if(!version_compare(mb_substr(DB::connection()->getPdo()->query('select version()')->fetchColumn(), 0, 6), '5.7.7') >= 0){
+            //Set Schema String Length
             Schema::defaultStringLength(191);
         }
 
-
-        //Create Testing Table
-        if(!Schema::hasTable('illumine_test1')){
-            Schema::create('illumine_test1', function (Blueprint $table) {
-                $table->increments('id');
-                $table->string('name');
-                $table->string('email');
-                $table->string('password');
-                $table->timestamps();
-            });
-            DB::table('illumine_test1')->insert([
-                [
-                    'name' => str_random(10),
-                    'email' => str_random(10).'@gmail.com',
-                    'password' => wp_hash_password('secret'),
-                    'created_at' => current_time( 'mysql' ),
-                    'updated_at' => current_time( 'mysql' ),
-                ],
-                [
-                    'name' => str_random(10),
-                    'email' => str_random(10).'@gmail.com',
-                    'password' => wp_hash_password('secret'),
-                    'created_at' => current_time( 'mysql' ),
-                    'updated_at' => current_time( 'mysql' ),
-                ],
-                [
-                    'name' => str_random(10),
-                    'email' => str_random(10).'@gmail.com',
-                    'password' => wp_hash_password('secret'),
-                    'created_at' => current_time( 'mysql' ),
-                    'updated_at' => current_time( 'mysql' ),
-                ],
-                [
-                    'name' => str_random(10),
-                    'email' => str_random(10).'@gmail.com',
-                    'password' => wp_hash_password('secret'),
-                    'created_at' => current_time( 'mysql' ),
-                    'updated_at' => current_time( 'mysql' ),
-                ]
-            ]);
-
-        }
-        //Create Sessions Table
-        if(!Schema::hasTable('illumine_test1_sessions')){
-            Schema::create('illumine_test1_sessions', function (Blueprint $table) {
-                $table->string('id')->unique();
-                $table->unsignedInteger('user_id')->nullable();
-                $table->string('ip_address', 45)->nullable();
-                $table->text('user_agent')->nullable();
-                $table->text('payload');
-                $table->integer('last_activity');
-            });
+        //Add Session Table if Configured
+        if($this->plugin['config']->get('session.enabled') && $this->plugin['config']->get('session.driver') == 'database'){
+            //Create Sessions Table
+            if(!Schema::hasTable($this->plugin['config']->get('session.table'))){
+                Schema::create($this->plugin['config']->get('session.table'), function (Blueprint $table) {
+                    $table->string('id')->unique();
+                    $table->unsignedInteger('user_id')->nullable();
+                    $table->string('ip_address', 45)->nullable();
+                    $table->text('user_agent')->nullable();
+                    $table->text('payload');
+                    $table->integer('last_activity');
+                });
+            }
         }
 
-        //Create Sessions Table
-        if(!Schema::hasTable('illumine_test1_cache')){
-            Schema::create('illumine_test1_cache', function (Blueprint $table) {
-                $table->string('key')->unique();
-                $table->text('value');
-                $table->integer('expiration');
-            });
+        //Add Cache Table if Configured
+        if($this->plugin['config']->get('cache.enabled') && $this->plugin['config']->get('cache.default') == 'database'){
+            //Create Sessions Table
+            if(!Schema::hasTable($this->plugin['config']->get('cache.stores.database.table'))){
+                Schema::create($this->plugin['config']->get('cache.stores.database.table'), function (Blueprint $table) {
+                    $table->string('key')->unique();
+                    $table->text('value');
+                    $table->integer('expiration');
+                });
+            }
         }
-
     }
 
     /**
