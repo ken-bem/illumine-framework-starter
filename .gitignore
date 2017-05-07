@@ -10,3 +10,9 @@
 .idea/vcs.xml
 
 .idea/workspace.xml
+
+.idea/php.xml
+
+composer.lock
+
+vendor/*

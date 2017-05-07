@@ -31,7 +31,7 @@ require_once __DIR__.'/vendor/autoload.php';
 |--------------------------------------------------------------------------
 */
 
-$framework = new \IllumineFramework\IlluminePlugin(__FILE__);
+$framework = new \Illumine\Framework\Assembler(__FILE__);
 
 
 /*
