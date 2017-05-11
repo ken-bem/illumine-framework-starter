@@ -17,9 +17,13 @@ class RouteController extends Controller {
     public function test(UserRequest $request)
     {
 
-        $this->queue()->push((new \IlluminePlugin1\Jobs\Notify(array('email' => 'fdsf@gmail.com'))));
+        $count = 0;
+        while($count < 45){
+            $this->queue()->push((new \IlluminePlugin1\Jobs\Notify(array('email' => str_random(10))))->onQueue('default'));
+            $count++;
+        }
 
-        $this->view('widget');
+        echo $count.' Jobs Pushed to Queue. '.$this->plugin['queue.worker']->getManager()->connection('database')->size().' Items are in the queue.';
 
     }
 

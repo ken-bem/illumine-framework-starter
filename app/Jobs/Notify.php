@@ -27,8 +27,11 @@ class Notify implements ShouldQueue
     public function handle()
     {
 
-        echo $this->notification['email'];
-        // Process uploaded podcast...
+        //wp_mail($this->notification['email'], 'queue test', $this->notification['email'].' notified.', null);
+        echo '<p>Processing: <span>'.$this->notification['email'].'</span></p>';
+
+        usleep(200000); //20 Milliseconds
+
     }
 
     /**
@@ -38,6 +41,7 @@ class Notify implements ShouldQueue
      */
     public function failed(ExceptionHandler $exception)
     {
+        wp_mail($this->notification['email'], $exception->getMessage(), null);
         // Send user notification of failure, etc...
     }
 }

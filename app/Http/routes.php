@@ -16,12 +16,13 @@
 $route->any('/addjob/', 'IlluminePlugin1\Http\Controllers\RouteController@test');
 
 
-
-
 $route->any('/api/queue', function(){
 
-    $queue = $this->plugin['queue.worker'];
-    $queue->runNextJob('database', 'default', new \Illuminate\Queue\WorkerOptions($delay = 0, $memory = 128, $timeout = 60, $sleep = 3, $maxTries = 0, $force = false));
+    //Get QueueWorker
+    $queueWorker = new \Illumine\Framework\Support\QueueWorker($this->plugin);
+
+    //Show Console & Work
+    $queueWorker->showConsole()->run();
 
 });
 
