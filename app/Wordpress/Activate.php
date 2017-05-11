@@ -58,12 +58,38 @@ class Activate{
 
         //Add Cache Table if Configured
         if($this->plugin['config']->get('cache.enabled') && $this->plugin['config']->get('cache.default') == 'database'){
-            //Create Sessions Table
+            //Create Cache Table
             if(!Schema::hasTable($this->plugin['config']->get('cache.stores.database.table'))){
                 Schema::create($this->plugin['config']->get('cache.stores.database.table'), function (Blueprint $table) {
                     $table->string('key')->unique();
                     $table->text('value');
                     $table->integer('expiration');
+                });
+            }
+        }
+
+
+        //Add Queue Table if Configured
+        if($this->plugin['config']->get('queue.enabled') && $this->plugin['config']->get('queue.default') == 'database'){
+            //Create Queue Table
+            if(!Schema::hasTable($this->plugin['config']->get('queue.connections.database.table'))){
+                Schema::create($this->plugin['config']->get('queue.connections.database.table'), function (Blueprint $table) {
+                    $table->bigIncrements('id');
+                    $table->string('queue');
+                    $table->longText('payload');
+                    $table->tinyInteger('attempts')->unsigned();
+                    $table->unsignedInteger('reserved_at')->nullable();
+                    $table->unsignedInteger('available_at');
+                    $table->unsignedInteger('created_at');
+                    $table->index(['queue', 'reserved_at']);
+                });
+                Schema::create('failed_jobs', function (Blueprint $table) {
+                    $table->bigIncrements('id');
+                    $table->text('connection');
+                    $table->text('queue');
+                    $table->longText('payload');
+                    $table->longText('exception');
+                    $table->timestamp('failed_at')->useCurrent();
                 });
             }
         }

@@ -33,7 +33,6 @@ class DirectoryController extends Controller {
      */
     public function data()
     {
-
         $postType = (!is_null($this->attributes['parameters']['post_type']) ? $this->attributes['parameters']['post_type'] : 'page');
 
         $this->data = WpPost::with('meta')

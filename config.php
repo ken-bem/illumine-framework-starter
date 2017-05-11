@@ -65,6 +65,25 @@ return [
         'http_only' => false, //HTTP Access Only
     ],
 
+    'queue' => [
+        'enabled' => true,
+        'default' => 'database',
+        'connections' => [
+            'sync' => [
+                'driver' => 'sync',
+            ],
+            'database' => [
+                'driver' => 'database',
+                'table' => 'illumine_test1_jobs',
+                'queue' => 'default',
+                'retry_after' => 90,
+            ],
+        ],
+        'failed' => [
+            'database' => 'mysql',
+            'table' => 'failed_jobs',
+        ],
+    ],
     //Validator
     'validator' => [
         'enabled' => true,

@@ -1,7 +1,7 @@
 <?php namespace IlluminePlugin1\Http\Controllers;
+use Illuminate\Validation\ValidationException;
 use IlluminePlugin1\Models\WpUser;
-use Illuminate\Validation\Rule;
-
+use IlluminePlugin1\Http\Requests\UserRequest;
 class UserProfileController extends Controller {
 
     public $attributes = array(), $content = '';
@@ -27,6 +27,8 @@ class UserProfileController extends Controller {
         //Render Template
         $this->template();
     }
+
+
     /**
      * Process Data
      * @return void
@@ -38,41 +40,26 @@ class UserProfileController extends Controller {
         $this->attributes['errors'] = null;
         $this->attributes['alertColor'] = 'red';
 
+        $request = UserRequest::capture();
 
+        if($request->isMethod('put')) {
 
-        if($this->request()->isMethod('put')){
+            try {
 
-            $data = $this->request()->only(['display_name', '_token']);
+                $request->validate();
 
-            $rules = array(
-                'display_name' => array('required', Rule::unique('users')->ignore($this->attributes['user']->ID, 'ID')),
-                '_token' => 'required'
-            );
-
-            $messages = array(
-                'display_name.required' => 'A display name is required.',
-                'display_name.unique' => 'A display name must be unique.',
-                '_token.required' => 'A Security Token must be present.'
-            );
-
-            $validation = $this->validator()->make($data,$rules,$messages);
-
-
-            if($validation->passes() && $this->verifyCSRF()) {
-
-                $this->attributes['user']->fill($data);
-
-                if($this->attributes['user']->save()) {
+                $this->attributes['user']->fill($request->only(['display_name']));
+                if ($this->attributes['user']->save()) {
                     $this->attributes['alertClass'] = 'green';
                     $this->attributes['messages'] = array('Profile updated Successfully.');
                 }
 
-            }elseif(count($validation->errors()) > 0){
+            } catch (ValidationException $validationException) {
 
-                $this->attributes['messages'] = $validation->errors()->all();
+                foreach($validationException->validator->errors()->all() as $field => $messages){
 
-            }else{
-                $this->attributes['messages'] = array('CSRF Token Expired Please refresh the page to start a new request.');
+                    $this->attributes['messages'][$field] = $messages;
+                }
             }
         }
     }

@@ -33,8 +33,19 @@ class UnInstall{
      */
     private function schema()
     {
-        Schema::dropIfExists('illumine_test1_sessions');
-        Schema::dropIfExists('illumine_test1_cache');
+
+        if($this->plugin['config']->get('session.enabled') && $this->plugin['config']->get('session.driver') == 'database'){
+            Schema::dropIfExists($this->plugin['config']->get('session.table'));
+        }
+
+        if($this->plugin['config']->get('cache.enabled') && $this->plugin['config']->get('cache.default') == 'database'){
+            Schema::dropIfExists($this->plugin['config']->get('cache.stores.database.table'));
+        }
+
+        if($this->plugin['config']->get('queue.enabled') && $this->plugin['config']->get('queue.default') == 'database'){
+            Schema::dropIfExists($this->plugin['config']->get('queue.connections.database.table'));
+            Schema::dropIfExists('failed_jobs');
+        }
     }
 
     /**
