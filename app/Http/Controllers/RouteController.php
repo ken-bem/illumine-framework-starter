@@ -17,6 +17,8 @@ class RouteController extends Controller {
     public function test(UserRequest $request)
     {
 
+        $this->queue()->push((new \IlluminePlugin1\Jobs\Notify(array('email' => 'fdsf@gmail.com'))));
+
         $this->view('widget');
 
     }

@@ -13,19 +13,14 @@
 
 
 //$route->any('/about/', 'IlluminePlugin1\Http\Controllers\Controller@test')->middleware(\IlluminePlugin1\Http\Middleware\CsrfFilter::class);
-$route->any('/about/', 'IlluminePlugin1\Http\Controllers\RouteController@test');
+$route->any('/addjob/', 'IlluminePlugin1\Http\Controllers\RouteController@test');
 
 
 
-
-with(new Illuminate\Queue\QueueServiceProvider($this->plugin))->register();
-
-//$this->plugin['queue']->push('IlluminePlugin1\Jobs\Notify', array('email' => 'fdsf@gmail.com'));
 
 $route->any('/api/queue', function(){
 
     $queue = $this->plugin['queue.worker'];
-
     $queue->runNextJob('database', 'default', new \Illuminate\Queue\WorkerOptions($delay = 0, $memory = 128, $timeout = 60, $sleep = 3, $maxTries = 0, $force = false));
 
 });
